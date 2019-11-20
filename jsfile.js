@@ -58,6 +58,44 @@
       },
       correctAnswer: "d"
     },
+    {
+      question: "Inside which HTML element do we put the JavaScript?",
+      answers: {
+        a: "script",
+        b: "scripting",
+        c: "javascript",
+        d: "js",
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "What is the correct JavaScript syntax to change the content of the HTML element select id ?",
+      answers: {
+        a: "document.getElementsByName",
+        b: "document.getElementById",
+        c: "#demo.innerHTML",
+        d: "document.getElement",
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "Where is the correct place to insert a JavaScript?",
+      answers: {
+        a: "The <head> section",
+        b: "Both the <head> section and the <body> section are correct",
+        c: "The <body> section",
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "What is the correct syntax for referring to an external script called `xxx.js`?",
+      answers: {
+        a: "script name ",
+        b: "script src ",
+        c: "script href ",
+      },
+      correctAnswer: "b"
+    },
   ];
 
   function buildQuiz() {
@@ -101,6 +139,7 @@
 
     // finally combine our output list into one string of HTML and put it on the page
     quizContainer.innerHTML = output.join('');
+    autoCorrectAnswerChecker();
   }
   // correct answer checker
   // showResults function to loop over the answers, check them,
@@ -112,7 +151,7 @@
     // keep track of user's answers
     let numCorrect = 0;
     let score = 0;
-    let average = 12;
+    let average = 20;
 
     // for each question...
     myQuestions.forEach((currentQuestion, questionNumber) => {
@@ -122,10 +161,6 @@
       const unSelector = `input[name=question${questionNumber}]`;
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
       console.log(userAnswer);
-      // if answer is correct
-      // let num = `${questionNumber.value}`;
-      // avTo = parseInt(num * 2);
-      //
       if (userAnswer === currentQuestion.correctAnswer) {
         // add to the number of correct answers
         numCorrect++;
@@ -148,8 +183,14 @@
     <br>Your Average Score Is: ${total.toFixed(2)} out of 100`;
   }
 
-  // quizContainer.addEventListener('click', autoCorrectAnswerChecker);
-  function autoCorrectAnswerChecker () {
+  const quizContainer = document.getElementById("quiz");
+  // var quizAct = document.querySelectorAll('.answers');
+  $("input[type=radio]").click(function() {
+    $(this).hide();
+  });
+
+  // quiz event check function
+  function autoCorrectAnswerChecker() {
     // gather answer containers from our quiz
     const answerContainers = quizContainer.querySelectorAll(".answers");
     // keep track of user's answers
@@ -162,39 +203,50 @@
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
       var hidden = quizContainer.querySelector('.ans');
       // avoid double select
-      if (selector) {
-        var selectInput = quizContainer.querySelectorAll('input[type="radio"]');
-        var i;
-        for (i = 0; i < selectInput.length; i+= 1) {
-          selectInput[i].disabled = true;
-        }
-      } else {
-        console.log('not checked');
-      }
-      // if answer is correct
-      if (userAnswer === currentQuestion.correctAnswer) {
-        console.log(currentQuestion.correctAnswer);
-        // add to the number of correct answers
-        // numCorrect++
-        // console.log('oh sorry the correct answer is: ' + validAnswer);
-        // color the answers green
-        answerContainers[questionNumber].style.color = "lightgreen";
-      } else {
-        console.log('oh sorry the correct answer is: ' + currentQuestion.correctAnswer);
-         // var hidInput = hidden.querySelector('ans');
-         // hidden.className = 'dispAns';
-        // var hiddenInput = quizContainer.querySelector('input[type="hidden"]').type = 'text';
-        // hiddenInput.type="text";
-        answerContainers[questionNumber].style.color = "red";
-      }
-
-      if (userAnswer !== currentQuestion.correctAnswer) {
-        hidden.className = 'disAns';
+      var selectInput = quizContainer.querySelectorAll('input[type="radio"]');
+      var i;
+      for (i = 0; i < selectInput.length; i+= 1) {
+        selectInput[i].addEventListener('click', showAnswer);
       }
       // second if statement end
     });
   };
 
+  function showAnswer(e) {
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll(".answers");
+    // keep track of user's answers
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      console.log('yes');
+      // const unSelector = `input[name=question${questionNumber}]`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+      var hidden = quizContainer.querySelector('.ans');
+      // avoid double select
+      var selectInput = quizContainer.querySelectorAll('input[type="radio"]');
+      var i;
+      for (i = 0; i < selectInput.length; i+= 1) {
+        // stop user from sellecting more than ones
+        if (selector) {
+           selectInput[i].disabled = true;
+        }
+      }
+        // selectInput[i].disabled = true;
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        answerContainers[questionNumber].style.color = "lightgreen";
+      } else {
+        // show correct answer
+         $("p").show();
+        answerContainers[questionNumber].style.color = "red";
+      }
+      // second if statement end
+    })
+  };
+  // quizAct.addEventListener('click', autoCorrectAnswerChecker);
   function showSlide(n) {
     slides[currentSlide].classList.remove("active-slide");
     slides[n].classList.add("active-slide");
@@ -215,27 +267,23 @@
     }
   }
 
-  function showNextSlide() {
+  function showNextSlide(e) {
     showSlide(currentSlide + 1);
       $("input[type=radio]").attr('disabled',false);
-    // // var hiddenInput = quizContainer.querySelector('input[type="hidden"]').type = "hidden";
-      // var hidden = quizContainer.querySelector('.ans').className = 'ans';
-        var hidden = quizContainer.querySelector('.ans');
-      hidden.className = 'dispAns';
+      $("p").hide();
   }
 
   function showPreviousSlide() {
     showSlide(currentSlide - 1);
+    $("input[type=radio]").attr('disabled',true);
   }
 
-  const quizContainer = document.getElementById("quiz");
+  // const quizContainer = document.getElementById("quiz");
   const resultsContainer = document.getElementById("results");
   const average = document.getElementById("average");
   const submitButton = document.getElementById("submit");
-
   // display quiz right away
   buildQuiz();
-  // setInterval(autoCorrectAnswerChecker, 1000);
 
   const previousButton = document.getElementById("previous");
   const nextButton = document.getElementById("next");
@@ -248,6 +296,4 @@
   submitButton.addEventListener("click", showResults);
   previousButton.addEventListener("click", showPreviousSlide);
   nextButton.addEventListener("click", showNextSlide);
-  var radioBtn = quizContainer.querySelector('.active-slide');
-  quizContainer.addEventListener('click', autoCorrectAnswerChecker);
 })();
