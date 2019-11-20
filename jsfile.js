@@ -163,6 +163,7 @@
       const selector = `input[name=question${questionNumber}]:checked`;
       // const unSelector = `input[name=question${questionNumber}]`;
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+      var hidden = quizContainer.querySelector('.ans').className = 'dispAns';
       // avoid double select
       if (selector) {
         var selectInput = quizContainer.querySelectorAll('input[type="radio"]');
@@ -175,27 +176,25 @@
       }
       // if answer is correct
       if (userAnswer === currentQuestion.correctAnswer) {
+        console.log(currentQuestion.correctAnswer);
         // add to the number of correct answers
         // numCorrect++
-        // var validAnswer = currentQuestion.correctAnswer;
         // console.log('oh sorry the correct answer is: ' + validAnswer);
         // color the answers green
-        console.log(userAnswer);
         answerContainers[questionNumber].style.color = "lightgreen";
       } else {
-        // console.log('oh sorry the correct answer is: ' + validAnswer);
-        // var hidden = quizContainer.querySelector('.ans').className = 'dispAns';
+        console.log('oh sorry the correct answer is: ' + currentQuestion.correctAnswer);
          // var hidInput = hidden.querySelector('ans');
          // hidden.className = 'dispAns';
         // var hiddenInput = quizContainer.querySelector('input[type="hidden"]').type = 'text';
         // hiddenInput.type="text";
-        var validAnswer = currentQuestion.correctAnswer;
-        var showValidAns = quizContainer.querySelector('.validAns');
-        // showValidAns.innerHTML = 'oh sorry the correct answer is: ' + validAnswer;
-        // if answer is wrong or blank
-        // color the answers red
-        // answerContainers[questionNumber].style.color = "red";
+        answerContainers[questionNumber].style.color = "red";
       }
+
+      if (userAnswer !== currentQuestion.correctAnswer) {
+        hidden.className = 'disAns';
+      }
+      // second if statement end
     });
   };
 
@@ -223,8 +222,9 @@
     showSlide(currentSlide + 1);
       $("input[type=radio]").attr('disabled',false);
     // // var hiddenInput = quizContainer.querySelector('input[type="hidden"]').type = "hidden";
-    //   var hidden = quizContainer.querySelector('.ans').className = 'ans';
-
+      // var hidden = quizContainer.querySelector('.ans').className = 'ans';
+      //   var hidden = quizContainer.querySelector('.ans');
+      // hidden.className = 'dispAns';
   }
 
   function showPreviousSlide() {
