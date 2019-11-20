@@ -152,10 +152,7 @@
   function autoCorrectAnswerChecker () {
     // gather answer containers from our quiz
     const answerContainers = quizContainer.querySelectorAll(".answers");
-
     // keep track of user's answers
-    // let numCorrect = 0;
-
     // for each question...
     myQuestions.forEach((currentQuestion, questionNumber) => {
       // find selected answer
@@ -163,7 +160,7 @@
       const selector = `input[name=question${questionNumber}]:checked`;
       // const unSelector = `input[name=question${questionNumber}]`;
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-      var hidden = quizContainer.querySelector('.ans').className = 'dispAns';
+      var hidden = quizContainer.querySelector('.ans');
       // avoid double select
       if (selector) {
         var selectInput = quizContainer.querySelectorAll('input[type="radio"]');
@@ -223,8 +220,8 @@
       $("input[type=radio]").attr('disabled',false);
     // // var hiddenInput = quizContainer.querySelector('input[type="hidden"]').type = "hidden";
       // var hidden = quizContainer.querySelector('.ans').className = 'ans';
-      //   var hidden = quizContainer.querySelector('.ans');
-      // hidden.className = 'dispAns';
+        var hidden = quizContainer.querySelector('.ans');
+      hidden.className = 'dispAns';
   }
 
   function showPreviousSlide() {
