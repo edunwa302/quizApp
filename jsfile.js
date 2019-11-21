@@ -240,7 +240,7 @@
         answerContainers[questionNumber].style.color = "lightgreen";
       } else {
         // show correct answer
-         $("p").show();
+         $("p").show(1000);
         answerContainers[questionNumber].style.color = "red";
       }
       // second if statement end
