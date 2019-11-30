@@ -29,31 +29,38 @@ h1{
   display: block;
   margin-bottom: 10px;
 }
-.validAns {
-
+.lgreen {
+  color: lightgreen;
 }
 .ans {
   display: none;
 }
+.dispAns span {
+  color: lightgreen;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
 .dispAns {
   display: block;
 }
-.btn-wrap {
-  margin-top: 30px;
-}
+
 button{
   font-family: 'Work Sans', sans-serif;
-    font-size: 22px;
+    font-size: 18px;
     background-color: #279;
     color: #fff;
     border: 0px;
     border-radius: 3px;
-    padding: 14px;
+    padding: 8px;
     cursor: pointer;
     margin-bottom: 20px;
 }
 button:hover{
     background-color: #38a;
+}
+.hideBtn {
+  background-color: #f1f1;
+  color: red;
 }
 h2 {
   margin-block-start: 0.2em;
