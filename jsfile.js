@@ -167,7 +167,6 @@
   function showResults() {
     // gather answer containers from our quiz
     const answerContainers = quizContainer.querySelectorAll(".answers");
-    console.log(answerContainers);
     // keep track of user's answers
     let numCorrect = 0;
     let score = 0;
@@ -178,9 +177,7 @@
       // find selected answer
       const answerContainer = answerContainers[questionNumber];
       const selector = `input[name=question${questionNumber}]:checked`;
-      const unSelector = `input[name=question${questionNumber}]`;
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-      console.log(userAnswer);
       if (userAnswer === currentQuestion.correctAnswer) {
         // add to the number of correct answers
         numCorrect++;
@@ -194,7 +191,6 @@
         answerContainers[questionNumber].style.color = "red";
       }
     });
-    console.log(score);
 
     // show number of correct answers out of total
     let total = score / average * 100;
@@ -212,6 +208,7 @@
   function selectAnswer() {
       // get the current answer container :
       let answerContainer =  document.querySelector('.answers'+countLoop);// at first here countloop is 0.
+
          // input : limits it to input tags.
          // [name=question${questionNumber}] : limits it to tags with the name that match question${questionNumber} within the previous group.
          // checked : limits it to checkboxes/radio buttons that is selected within the previous group.
@@ -274,22 +271,15 @@
            // On the active answerContainer get the lable who's iD attribute value matches with that of the correctAnswer property value
            // on the active item in the array
           answerContainer.querySelector('#'+currentItem.correctAnswer).style.color = "lightgreen";
-          console.log(currentItem.correctAnswer)
           }
 
-          // Make the nextButton visible.
-          nextButton.style.display = 'inline-block';
-
-           // increment the numb by one
-           console.log('countLoop'+countLoop);
+           // increment the numb by o
            countLoop++;
 
            // increment this numb by one
-          console.log('arrayMatch'+checkArraylenghtMatch);
           checkArraylenghtMatch++;
 
           // result is equal to the user score plus the number of Avaliable question;
-          // resultsContainer.innerHTML = `Your score is : ${currentScore} out of ${myQuestions.length}`;
 
           questionsAnswered++;
           // attemptedQuestions.innerHTML = `You have Answered : ${questionsAnswered} Out Of ${myQuestions.length} Questions`;
@@ -311,18 +301,19 @@
       nextButton.disabled = true;
       nextButton.style.background = '#f1f1';
     }
-
+    if (currentSlide > slides.length - 2) {
+       nextButton.style.display = 'none';
+    }
     if (currentSlide === slides.length - 1) {
-      nextButton.style.display = "none";
       submitButton.style.display = "inline-block";
     } else {
-      nextButton.style.display = "inline-block";
+      // nextButton.style.display = "inline-block";
       submitButton.style.display = "none";
     }
   }
-  function hideNextBtn(obj) {
-    nextButton.disabled = true;
-  }
+  // function hideNextBtn(obj) {
+  //   nextButton.disabled = true;
+  // }
   function showNextSlide(e) {
     showSlide(currentSlide + 1);
     resultsContainer.className = "ans";
